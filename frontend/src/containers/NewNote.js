@@ -12,6 +12,7 @@ export default function NewNote() {
   const file = useRef(null);
   const nav = useNavigate();
   const [content, setContent] = useState("");
+  const [isarchive, setisarchive] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   function validateForm() {
@@ -39,7 +40,7 @@ export default function NewNote() {
     try {
       const attachment = file.current ? await s3Upload(file.current) : null;
   
-      await createNote({ content, attachment });
+      await createNote({ content, attachment, isarchive });
       nav("/");
     } catch (e) {
       onError(e);
@@ -67,6 +68,12 @@ export default function NewNote() {
           <Form.Label>Attachment</Form.Label>
           <Form.Control onChange={handleFileChange} type="file" />
         </Form.Group>
+        <Form.Check 
+          type="switch"
+          id="custom-switch"
+          label="Check this switch"
+          onChange={()=>{setisarchive(true)}}
+        />
         <LoaderButton
           block
           type="submit"

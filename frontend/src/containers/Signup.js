@@ -10,6 +10,7 @@ import { Auth } from "aws-amplify";
 
 export default function Signup() {
   const [fields, handleFieldChange] = useFormFields({
+    name:"",
     email: "",
     password: "",
     confirmPassword: "",
@@ -39,6 +40,7 @@ export default function Signup() {
       const newUser = await Auth.signUp({
         username: fields.email,
         password: fields.password,
+        name: fields.name,
       });
       setIsLoading(false);
       setNewUser(newUser);
@@ -92,6 +94,15 @@ export default function Signup() {
   function renderForm() {
     return (
       <Form onSubmit={handleSubmit}>
+        <Form.Group controlId="name" size="lg">
+          <Form.Label>Name</Form.Label>
+          <Form.Control
+            autoFocus
+            type="name"
+            value={fields.name}
+            onChange={handleFieldChange}
+          />
+        </Form.Group>
         <Form.Group controlId="email" size="lg">
           <Form.Label>Email</Form.Label>
           <Form.Control

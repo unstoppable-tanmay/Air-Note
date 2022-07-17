@@ -22,3 +22,15 @@ input.form-control {
 input[type="file"] {
   width: 100%;
 }
+.root{
+  width: 100vw;
+  height: 100vh;
+}
+.App{
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: column;
+}

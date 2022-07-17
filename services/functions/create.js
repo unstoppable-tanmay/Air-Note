@@ -14,6 +14,7 @@ export const main = handler(async (event) => {
       content: data.content, // Parsed from request body
       attachment: data.attachment, // Parsed from request body
       createdAt: Date.now(), // Current Unix timestamp
+      isarchive: data.isarchive,
     },
   };
 
