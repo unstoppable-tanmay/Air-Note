@@ -17,6 +17,8 @@ import { s3Upload } from "../lib/awsLib";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCube } from '@fortawesome/free-solid-svg-icons'
 
+import "./back.webp"
+import "./back1.png"
 
 
 export default function Home() {
@@ -209,6 +211,7 @@ export default function Home() {
       <div className="lander">
         <h1>Air Note</h1>
         <p className="text-muted">A simple note taking app</p>
+        <div className="imgnote"></div>
       </div>
     );
   }
