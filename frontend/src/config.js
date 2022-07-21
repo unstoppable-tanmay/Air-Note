@@ -1,5 +1,6 @@
 const config = {
-  MAX_ATTACHMENT_SIZE: 5000000,
+    SENTRY_DSN: "https://a3556990f9b0418db514912e5533bc25@o1329796.ingest.sentry.io/6592073",
+    MAX_ATTACHMENT_SIZE: 5000000,
     // Backend config
     s3: {
       REGION: process.env.REACT_APP_REGION,

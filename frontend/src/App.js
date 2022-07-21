@@ -9,6 +9,7 @@ import { Auth } from "aws-amplify";
 import { useNavigate } from "react-router-dom";
 import { onError } from "./lib/errorLib";
 import "./App2.css";  
+import ErrorBoundary from "./components/ErrorBoundary";
 
   import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faClipboardList, faSignInAlt, faRedo, faUserPlus, faCog, faGripHorizontal, faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
@@ -124,9 +125,11 @@ function App() {
     </>
 
        
-        <AppContext.Provider value={{ isAuthenticated , islist, userHasAuthenticated }}>
-            <Routes />
+      <ErrorBoundary>
+        <AppContext.Provider value={{ isAuthenticated, userHasAuthenticated }}>
+          <Routes />
         </AppContext.Provider>
+      </ErrorBoundary>
       </div>
     )
   );
