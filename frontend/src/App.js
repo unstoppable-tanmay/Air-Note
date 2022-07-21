@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { onError } from "./lib/errorLib";
 import "./App2.css";  
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+  import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faClipboardList, faSignInAlt, faRedo, faUserPlus, faCog, faGripHorizontal, faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
 
 function App() {
