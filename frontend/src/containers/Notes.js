@@ -4,7 +4,7 @@ import { API, Storage } from "aws-amplify";
 import { onError } from "../lib/errorLib";
 import Form from "react-bootstrap/Form";
 import LoaderButton from "../components/LoaderButton";
-import config from "../config";
+import config from "../cnfig";
 import "./Notes.css";
 import { s3Upload } from "../lib/awsLib";
 

@@ -3,7 +3,7 @@ import Form from "react-bootstrap/Form";
 import { useNavigate } from "react-router-dom";
 import LoaderButton from "../components/LoaderButton";
 import { onError } from "../lib/errorLib";
-import config from "../config";
+import config from "../cnfig";
 import "./NewNote.css";
 import { API } from "aws-amplify";
 import { s3Upload } from "../lib/awsLib";
