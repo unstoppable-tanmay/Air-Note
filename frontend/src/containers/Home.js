@@ -10,7 +10,7 @@ import { LinkContainer } from "react-router-bootstrap";
 import Form from "react-bootstrap/Form";
 import { useNavigate } from "react-router-dom";
 import LoaderButton from "../components/LoaderButton";
-import config from "../cnfig";
+import config from "../config";
 import "./NewNote.css";
 import { s3Upload } from "../lib/awsLib";
 

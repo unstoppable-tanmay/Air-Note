@@ -6,7 +6,7 @@ import reportWebVitals from './reportWebVitals';
 import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter as Router } from "react-router-dom";
 import { Amplify } from 'aws-amplify';
-import config from './cnfig';
+import config from './config';
 
 
 

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { API } from "aws-amplify";
 import { useNavigate } from "react-router-dom";
 import { onError } from "../lib/errorLib";
-import config from "../cnfig";
+import config from "../config";
 
 export default function Settings() {
   const nav = useNavigate();
