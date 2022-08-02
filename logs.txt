@@ -1,0 +1,3 @@
+aws cognito-identity get-id \
+--identity-pool-id us-east-1:9509fd27-c072-402e-8b69-4c7e23491cf7 \
+--logins graph.facebook.com="EAAIgBcvxQd4BABnFPNEPmVHZAoxBPSg1ZBD0WuVq2wO9WZC7M5UHfZCSyIvZC9Fbt8D8xMZAfAgzryxroESrH2yYndIBRAInqXSSdaKHHagAZB9ZBqKQOk2CtNTqfVZCpXL7cDRPqQVtKFpqWjzZBLLpCb6nCaVicYwrGJTZAxM0ZBqoLT3unloJ1AbioAjVHE3XUMhZAse7uRYA58QZDZD"

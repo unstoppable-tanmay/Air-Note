@@ -1,0 +1,19 @@
+.Email{
+  width: 100vw;
+  height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.Email_container{
+  width: 25rem;
+  height: 30rem;
+  box-shadow: 0px 3px 20px rgba(0, 0, 0, 0.118);
+  border: 1px solid #eee;
+  border-radius: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 2rem;
+}
