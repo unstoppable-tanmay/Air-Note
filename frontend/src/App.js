@@ -1,18 +1,17 @@
-import React, { useState, useEffect, createContext } from "react";
-// import Navbar from "react-bootstrap/Navbar";
-// import "./App.css";
+import React, { useState, useEffect } from "react";
 import Routes from "./Routes";
-// import Nav from "react-bootstrap/Nav";
+import "./App.css";  
+
+import ErrorBoundary from "./components/ErrorBoundary";
 import { LinkContainer } from "react-router-bootstrap";
 import { AppContext } from "./lib/contextLib";
 import { Auth } from "aws-amplify";
 import { useNavigate } from "react-router-dom";
 import { onError } from "./lib/errorLib";
-import "./App2.css";  
-import ErrorBoundary from "./components/ErrorBoundary";
 
-  import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faClipboardList, faSignInAlt, faRedo, faUserPlus, faCog, faGripHorizontal, faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
+// Icons
+import { FaStickyNote, FaCloudDownloadAlt, FaGripHorizontal, FaWhmcs, FaSignOutAlt, FaUserAlt, FaSignInAlt } from "react-icons/fa";
+
 
 function App() {
   const [isAuthenticated, userHasAuthenticated] = useState(false);
@@ -21,28 +20,25 @@ function App() {
   const nav = useNavigate();
 
   useEffect(() => {
+    async function onLoad() {
+      try {
+        await Auth.currentSession();
+        userHasAuthenticated(true);
+      } catch (e) {
+        if (e !== "No current user") {
+          onError(e);
+        }
+      }
+      setIsAuthenticating(false);
+    }
     onLoad();
   }, []);
   
-  async function onLoad() {
-    try {
-      await Auth.currentSession();
-      userHasAuthenticated(true);
-    } catch (e) {
-      if (e !== "No current user") {
-        onError(e);
-      }
-    }
-  
-    setIsAuthenticating(false);
-  }
 
   async function handleLogout() {
     await Auth.signOut();
-  
     userHasAuthenticated(false);
-
-    nav("/login");
+    nav("/");
   }
   async function handlelists() {
     islist ? setIslist(false) : setIslist(true);
@@ -50,51 +46,17 @@ function App() {
   }
   function loadnotes(){
     nav("/");
+    window.location.reload(false);
   }
-
+  
   return (
     !isAuthenticating && (
       <div className="App">
-      
-        {/* <Navbar collapseOnSelect bg="light" expand="md" className="mb-3">
-          <LinkContainer to="/">
-            <Navbar.Brand className="font-weight-bold text-muted">
-              Air Note
-            </Navbar.Brand>
-          </LinkContainer>
-          <Navbar.Toggle />
-          <Navbar.Collapse className="justify-content-end">
-            <Nav activeKey={window.location.pathname}>
-              {isAuthenticated ? (
-                <>
-                  <LinkContainer to="/settings">
-                    <Nav.Link>Settings</Nav.Link>
-                  </LinkContainer>
-                  <Nav.Link onClick={handleLogout}>Logout</Nav.Link>
-                </>
-              ) : (
-                <>
-                  <LinkContainer to="/signup">
-                    <Nav.Link>Signup</Nav.Link>
-                  </LinkContainer>
-                  <LinkContainer to="/login">
-                    <Nav.Link>Login</Nav.Link>
-                  </LinkContainer>
-                </>
-              )}
-            </Nav>
-          </Navbar.Collapse>
-        </Navbar> */}
-
-        {/* Routes Starts */}
-
-
-                
-    <>
+      {/* Nav Bar */}
       <div className="header">
         <div className="left">
           <div className="logo" to="/">
-            <FontAwesomeIcon icon={ faClipboardList }/>
+            <FaStickyNote />
             <div className="ltext">AirNote</div>
           </div>
         </div>
@@ -102,31 +64,29 @@ function App() {
           <div className="righticons">
             {isAuthenticated ? (
                 <>
-                  <div className="refresh" onClick={loadnotes}><FontAwesomeIcon icon={ faRedo }/></div>
-                  <div className="viewchange" onClick={handlelists}><FontAwesomeIcon icon={ faGripHorizontal }/></div>
+                  <div className="refresh" onClick={loadnotes}><FaCloudDownloadAlt /></div>
+                  <div className="viewchange" onClick={handlelists}><FaGripHorizontal /></div>
                   <LinkContainer to="/settings">
-                    <div className="settings"><FontAwesomeIcon icon={ faCog }/></div>
+                    <div className="settings"><FaWhmcs /></div>
                   </LinkContainer>
-                    <div className="account" onClick={handleLogout}><FontAwesomeIcon icon={ faSignOutAlt }/></div>
+                    <div className="account" onClick={handleLogout}><FaSignOutAlt /></div>
                 </>
               ) : (
                 <>
                   <LinkContainer to="/signup">
-                    <div className="loginpage"><FontAwesomeIcon icon={ faUserPlus }/><div className="loginpagetext">Signup</div></div>
+                    <div className="loginpage"><FaUserAlt /><div className="loginpagetext">Signup</div></div>
                   </LinkContainer>
                   <LinkContainer to="/login">
-                    <div className="loginpage"><FontAwesomeIcon icon={ faSignInAlt }/><div className="loginpagetext">Login</div></div>
+                    <div className="loginpage"><FaSignInAlt /><div className="loginpagetext">Login</div></div>
                   </LinkContainer>
                 </>
               )}
           </div>
         </div>
       </div>
-    </>
-
        
       <ErrorBoundary>
-        <AppContext.Provider value={{ isAuthenticated, userHasAuthenticated }}>
+        <AppContext.Provider value={{ isAuthenticated, userHasAuthenticated, islist }}>
           <Routes />
         </AppContext.Provider>
       </ErrorBoundary>

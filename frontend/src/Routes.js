@@ -9,6 +9,9 @@ import Notes from "./containers/Notes";
 import Settings from "./containers/Settings";
 import AuthenticatedRoute from "./components/AuthenticatedRoute";
 import UnauthenticatedRoute from "./components/UnauthenticatedRoute";
+import ChangePassword from "./containers/ChangePassword";
+import ChangeEmail from "./containers/ChangeEmail";
+import ResetPassword from "./containers/ResetPassword";
 
 export default function Links() {
   return (
@@ -55,6 +58,30 @@ export default function Links() {
           <AuthenticatedRoute>
             <Notes />
           </AuthenticatedRoute>
+        }
+      />
+      <Route
+        path="/settings/password"
+        element={
+          <AuthenticatedRoute>
+              <ChangePassword />
+          </AuthenticatedRoute>
+        }
+      />
+      <Route
+        path="/settings/email"
+        element={
+          <AuthenticatedRoute>
+            <ChangeEmail />
+          </AuthenticatedRoute>
+        }
+      />
+      <Route
+        path="/login/reset"
+        element={
+          <UnauthenticatedRoute>
+            <ResetPassword />
+          </UnauthenticatedRoute>
         }
       />
     </Routes>

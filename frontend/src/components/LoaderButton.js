@@ -5,6 +5,8 @@ import "./LoaderButton.css";
 
 export default function LoaderButton({
   isLoading,
+  text,
+  loadingText,
   className = "",
   disabled = false,
   ...props
@@ -15,6 +17,7 @@ export default function LoaderButton({
       className={`LoaderButton ${className}`}
       {...props}
     >
+    {text}
       {isLoading && <BsArrowRepeat className="spinning" />}
       {props.children}
     </Button>

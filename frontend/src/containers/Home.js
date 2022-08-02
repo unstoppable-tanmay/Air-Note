@@ -1,32 +1,31 @@
-import React, { useState, useEffect, useRef, useParams } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import ListGroup from "react-bootstrap/ListGroup";
-import { useAppContext } from "../lib/contextLib";
-import { onError } from "../lib/errorLib";
-import "./Home.css";
-import { API } from "aws-amplify";
-import { LinkContainer } from "react-router-bootstrap";
-
-
 import Form from "react-bootstrap/Form";
-import { useNavigate } from "react-router-dom";
 import LoaderButton from "../components/LoaderButton";
 import config from "../config";
-import "./NewNote.css";
+
+import { useAppContext } from "../lib/contextLib";
+import { onError } from "../lib/errorLib";
+import { API } from "aws-amplify";
+import { LinkContainer } from "react-router-bootstrap";
 import { s3Upload } from "../lib/awsLib";
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCube } from '@fortawesome/free-solid-svg-icons'
+// css
+import "./NewNote.css";
+import "./Home.css";
 
-import "./back.webp"
+// Icons
+import { FaRegTrashAlt, FaRegStar } from "react-icons/fa";
+
+// Images
 import "./back1.png"
 
 
 export default function Home() {
   const [notes, setNotes] = useState([]);
-  const { isAuthenticated } = useAppContext();
   const [isLoading, setIsLoading] = useState(true);
   const [iscreatenote, setiscreatenote] = useState(false);
-  const { islist } = useAppContext();
+  const { islist, isAuthenticated } = useAppContext();
 
   useEffect(() => {
     async function onLoad() {
@@ -50,21 +49,49 @@ export default function Home() {
   function createNotepage(){
     iscreatenote?setiscreatenote(false): setiscreatenote(true);
   }  
-  
+  async function onLoad() {
+    if (!isAuthenticated) {
+      return;
+    }
+    try {
+      const notes = await loadNotes();
+      setNotes(notes);
+    } catch (e) {
+      onError(e);
+    }
+    setIsLoading(false);
+  }
+  async function handleDelete(event,id) {
+    function deleteNote(id) {
+      return API.del("notes", `/notes/${id}`);
+    }
+    event.preventDefault(); 
+    const confirmed = window.confirm(
+      "Are you sure you want to delete this note?"
+    );
+    if (!confirmed) {
+      return;
+    }
+    try {
+      await deleteNote(id);
+      onLoad();
+    } catch (e) {
+      onError(e);
+    }
+  }
 
   function NewNote() {
     const file = useRef(null);
     const [content, setContent] = useState("");
     const [isarchive, setisarchive] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    const nav = useNavigate();
+    // const nav = useNavigate();
   
     function validateForm() {
       return content.length > 0;
     }
     function validateClose(){
       setiscreatenote(false);
-      // nav("/");
     }
 
     function handleFileChange(event) {
@@ -89,19 +116,6 @@ export default function Home() {
     
         await createNote({ content, attachment, isarchive });
         setiscreatenote(false);
-        // nav("/");
-        async function onLoad() {
-          if (!isAuthenticated) {
-            return;
-          }
-          try {
-            const notes = await loadNotes();
-            setNotes(notes);
-          } catch (e) {
-            onError(e);
-          }
-          setIsLoading(false);
-        }
         onLoad();
       } catch (e) {
         onError(e);
@@ -124,13 +138,9 @@ export default function Home() {
     return (
       <div>
         <Form onSubmit={handleSubmit}  className="NewNoteonpage">
-            {/* <Form.Control
-                  value={content}
-                  as="textarea"
-                  className="new_note_onpage_textarea"
-                  onChange={(e) => setContent(e.target.value)}
-                /> */}
-              <textarea className="new_note_onpage" onInput={expand_note} value={content} onChange={(e) => setContent(e.target.value)}></textarea>
+              <textarea className="new_note_onpage" placeholder="Take a note . . ." onInput={expand_note} value={content} onChange={(e) => setContent(e.target.value)}>
+                <input type="file" name="file_size" className="new_note_onpage" />
+              </textarea>
             <Form.Group controlId="file">
               <Form.Label>Attachment</Form.Label>
               <Form.Control onChange={handleFileChange} type="file" />
@@ -157,7 +167,6 @@ export default function Home() {
                 block
                 size="lg"
                 variant="danger"
-                // disabled={!validateClose()}
                 onClick={validateClose}
               >
                 Close
@@ -167,7 +176,6 @@ export default function Home() {
       </div>
     );
   }
-
 
   function renderNotesList(notes) {
     return (
@@ -194,9 +202,10 @@ export default function Home() {
                   <span className="text-muted date_notes">
                     Created: {new Date(createdAt).toLocaleString()}
                   </span>
-                  {/* <span className="delete_btn_onnote" >
-                    <FontAwesomeIcon icon={ faCube }/>
-                  </span> */}
+                  <span className="delete_btn_onnote">
+                    <FaRegStar onClick={event => handleDelete(event, noteId)} className="note_in_btns"/>
+                    <FaRegTrashAlt  onClick={event => handleDelete(event, noteId)} className="note_in_btns"/>
+                  </span>
                 </div>
               </LinkContainer>
             ))}
@@ -209,8 +218,8 @@ export default function Home() {
   function renderLander() {
     return (
       <div className="lander">
-        <h1>Air Note</h1>
-        <p className="text-muted">A simple note taking app</p>
+        <h1 className="Home_Heading">Air Note</h1>
+        <p className="text-muted home_des_font">A simple note taking app</p>
         <div className="imgnote"></div>
       </div>
     );

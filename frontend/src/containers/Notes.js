@@ -41,6 +41,7 @@ export default function Notes() {
 
     onLoad();
   }, [id]);
+  
   function validateForm() {
     return content.length > 0;
   }

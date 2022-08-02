@@ -1,17 +1,13 @@
-.Signup{
+.Email{
   width: 100vw;
   height: 90vh;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.submitbtn{
-  margin-top: 1rem;
-}
-.signupbox{
-  box-sizing: border-box;
+.Email_container{
   width: 25rem;
-  min-height: 30rem;
+  height: 30rem;
   box-shadow: 0px 3px 20px rgba(0, 0, 0, 0.118);
   border: 1px solid #eee;
   border-radius: 1rem;
@@ -20,9 +16,4 @@
   justify-content: center;
   flex-direction: column;
   gap: 2rem;
-  padding: 2rem 1rem 2rem 1rem;
-}
-.signup_name,.signup_email,.signup_pass,.signup_cpass{
-  width: 80%;
-  background: transparent;
 }

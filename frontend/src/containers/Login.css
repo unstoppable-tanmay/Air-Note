@@ -1,13 +1,45 @@
-@media all and (min-width: 480px) {
-    .Login {
-      padding: 100px 0;
-    }
-  
-    .Login form {
-      margin: 0 auto;
-      max-width: 320px;
-    }
+  .Login{
+    width: 100vw;
+    height: 90vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   .submitbtn{
     margin-top: 1rem;
+  }
+  .loginbox{
+    width: 25rem;
+    height: 30rem;
+    box-shadow: 0px 3px 20px rgba(0, 0, 0, 0.118);
+    border: 1px solid #eee;
+    border-radius: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 2rem;
+  }
+  .login_email,.login_pass{
+    width: 80%;
+    background: transparent;
+  }
+  .Login form a {
+    margin-bottom: 15px;
+    display: block;
+    font-size: 14px;
+  }
+  .signinbtns{
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+  }
+  .signin_g_fb{
+    font-size: 2rem;
+    color: #5c5c5c;
+  }
+  .signin_g_fb:hover{
+    color: gray;
   }

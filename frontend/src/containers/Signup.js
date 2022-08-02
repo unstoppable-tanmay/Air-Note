@@ -93,52 +93,54 @@ export default function Signup() {
 
   function renderForm() {
     return (
-      <Form onSubmit={handleSubmit}>
-        <Form.Group controlId="name" size="lg">
-          <Form.Label>Name</Form.Label>
-          <Form.Control
-            autoFocus
-            type="name"
-            value={fields.name}
-            onChange={handleFieldChange}
-          />
-        </Form.Group>
-        <Form.Group controlId="email" size="lg">
-          <Form.Label>Email</Form.Label>
-          <Form.Control
-            autoFocus
-            type="email"
-            value={fields.email}
-            onChange={handleFieldChange}
-          />
-        </Form.Group>
-        <Form.Group controlId="password" size="lg">
-          <Form.Label>Password</Form.Label>
-          <Form.Control
-            type="password"
-            value={fields.password}
-            onChange={handleFieldChange}
-          />
-        </Form.Group>
-        <Form.Group controlId="confirmPassword" size="lg">
-          <Form.Label>Confirm Password</Form.Label>
-          <Form.Control
-            type="password"
-            onChange={handleFieldChange}
-            value={fields.confirmPassword}
-          />
-        </Form.Group>
-        <LoaderButton
-          block="true"
-          size="lg"
-          type="submit"
-          variant="success"
-          isLoading={isLoading}
-          disabled={!validateForm()}
-        >
-          Signup
-        </LoaderButton>
-      </Form>
+      <div className="Signup">
+        <Form onSubmit={handleSubmit} className="signupbox">
+          <Form.Group controlId="name" size="lg" className="signup_name">
+            <Form.Label>Name</Form.Label>
+            <Form.Control
+              autoFocus
+              type="name"
+              value={fields.name}
+              onChange={handleFieldChange}
+            />
+          </Form.Group>
+          <Form.Group controlId="email" size="lg" className="signup_email">
+            <Form.Label>Email</Form.Label>
+            <Form.Control
+              autoFocus
+              type="email"
+              value={fields.email}
+              onChange={handleFieldChange}
+            />
+          </Form.Group>
+          <Form.Group controlId="password" size="lg" className="signup_pass">
+            <Form.Label>Password</Form.Label>
+            <Form.Control
+              type="password"
+              value={fields.password}
+              onChange={handleFieldChange}
+            />
+          </Form.Group>
+          <Form.Group controlId="confirmPassword" size="lg" className="signup_cpass">
+            <Form.Label>Confirm Password</Form.Label>
+            <Form.Control
+              type="password"
+              onChange={handleFieldChange}
+              value={fields.confirmPassword}
+            />
+          </Form.Group>
+          <LoaderButton
+            block="true"
+            size="lg"
+            type="submit"
+            variant="success"
+            isLoading={isLoading} className="signup_btn submitbtn"
+            disabled={!validateForm()}
+          >
+            Signup
+          </LoaderButton>
+        </Form>
+      </div>
     );
   }
 
