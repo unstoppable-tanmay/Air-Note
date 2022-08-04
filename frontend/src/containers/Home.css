@@ -48,6 +48,11 @@
   align-items: center;
   justify-content: flex-start;
   box-shadow: 0px 3px 7px rgba(0, 0, 0, 0.301);
+  transition: .3s;
+}
+.new_note_titel{
+  pointer-events: none;
+  font-size: 1.3rem;
 }
 .notesbox{
   margin-top: 3rem;
@@ -153,4 +158,34 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+
+
+
+
+
+/* New Note page */
+
+.new_note_open{
+  height: 10rem;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  padding: 1rem;
+}
+.new_note_open_titel{
+  outline: none;
+  border: none;
+  font-size: 1.4rem;
+  font-weight: 400;
+}
+.new_note_open_text{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  border: none;
+  margin-top: 1rem;
+  outline: none;
 }

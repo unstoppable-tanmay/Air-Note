@@ -27,7 +27,19 @@ export default function Home() {
   const [iscreatenote, setiscreatenote] = useState(false);
   const { islist, isAuthenticated } = useAppContext();
 
+  const [content, setContent] = useState("");
+
   useEffect(() => {
+    window.addEventListener('click', function(e){   
+      if (document.querySelector('.new_note').contains(e.target)){
+        // Clicked in box
+        setiscreatenote(true);
+      } else{
+        // Clicked outside the box
+        setiscreatenote(false);
+      }
+    });
+
     async function onLoad() {
       if (!isAuthenticated) {
         return;
@@ -43,6 +55,11 @@ export default function Home() {
     onLoad();
   }, [isAuthenticated]);
   
+  function expand_note(){
+    var s_height = document.querySelector('.new_note_onpage').scrollHeight;
+    document.querySelector('.new_note_onpage').setAttribute('style','height:'+s_height+'px');    
+    console.log(s_height)
+  }
   function loadNotes() {
     return API.get("notes", "/notes");
   }
@@ -82,7 +99,6 @@ export default function Home() {
 
   function NewNote() {
     const file = useRef(null);
-    const [content, setContent] = useState("");
     const [isarchive, setisarchive] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     // const nav = useNavigate();
@@ -176,17 +192,20 @@ export default function Home() {
       </div>
     );
   }
-
+  // onClick={createNotepage}
   function renderNotesList(notes) {
     return (
       <>
       <div className="notepage">
-        <LinkContainer to="" onClick={createNotepage}>
+        <LinkContainer to="" >
           {iscreatenote? (
-              <NewNote/>
+            <div action className="new_note new_note_open">
+              <input type="text" name="Titel" className="new_note_open_titel"  placeholder="Titel"/>
+              <textarea className="new_note_open_text" placeholder="Take a note . . ." onInput={expand_note} value={content} onChange={(e) => setContent(e.target.value)}></textarea>
+            </div>
           ):(
             <div action className="new_note">
-              <span className="ml-2 font-weight-normal">Take a note . . .</span>
+              <span className="ml-2 font-weight-normal new_note_titel">Take a note . . .</span>
             </div>
           )
           } 
@@ -239,3 +258,4 @@ export default function Home() {
     </div>
   );
 }
+

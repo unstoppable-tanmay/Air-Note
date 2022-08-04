@@ -8,6 +8,7 @@ import { AppContext } from "./lib/contextLib";
 import { Auth } from "aws-amplify";
 import { useNavigate } from "react-router-dom";
 import { onError } from "./lib/errorLib";
+import LoaderButton from "./components/LoaderButton";
 
 // Icons
 import { FaStickyNote, FaCloudDownloadAlt, FaGripHorizontal, FaWhmcs, FaSignOutAlt, FaUserAlt, FaSignInAlt } from "react-icons/fa";
@@ -17,6 +18,7 @@ function App() {
   const [isAuthenticated, userHasAuthenticated] = useState(false);
   const [isAuthenticating, setIsAuthenticating] = useState(true);
   const [islist, setIslist] = useState(false);
+  const [issetting, setIssetting] = useState(false);
   const nav = useNavigate();
 
   useEffect(() => {
@@ -52,6 +54,27 @@ function App() {
   return (
     !isAuthenticating && (
       <div className="App">
+      {/* Settings */}
+        {issetting?(
+          <div className="settings_home">
+            <div className="settings_container_home">
+              <div className="cancel" onClick={() =>{setIssetting(!issetting)}}>X</div>
+              <div className="settings_heading_home">Settings</div>
+              <LinkContainer to="/settings/email">
+                <LoaderButton block bsSize="large" onClick={() =>{setIssetting(!issetting)}}>
+                  Change Email
+                </LoaderButton>
+              </LinkContainer>
+              <LinkContainer to="/settings/password" onClick={() =>{setIssetting(!issetting)}}>
+                <LoaderButton block bsSize="large">
+                  Change Password
+                </LoaderButton>
+              </LinkContainer>
+            </div>
+        </div>
+        ):(
+          ""
+        )}
       {/* Nav Bar */}
       <div className="header">
         <div className="left">
@@ -66,9 +89,9 @@ function App() {
                 <>
                   <div className="refresh" onClick={loadnotes}><FaCloudDownloadAlt /></div>
                   <div className="viewchange" onClick={handlelists}><FaGripHorizontal /></div>
-                  <LinkContainer to="/settings">
-                    <div className="settings"><FaWhmcs /></div>
-                  </LinkContainer>
+                  {/* <LinkContainer to="/settings"> */}
+                    <div className="settings" onClick={() =>{setIssetting(!issetting)}}><FaWhmcs /></div>
+                  {/* </LinkContainer> */}
                     <div className="account" onClick={handleLogout}><FaSignOutAlt /></div>
                 </>
               ) : (
