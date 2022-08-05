@@ -188,4 +188,15 @@
   border: none;
   margin-top: 1rem;
   outline: none;
+  resize: none;
+  overflow: hidden;
+}
+.new_note_open_icons{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  font-size: 1.7rem;
+  color: gray;
+  margin-left: .3rem;
 }

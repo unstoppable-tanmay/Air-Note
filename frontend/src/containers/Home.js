@@ -15,7 +15,7 @@ import "./NewNote.css";
 import "./Home.css";
 
 // Icons
-import { FaRegTrashAlt, FaRegStar } from "react-icons/fa";
+import { FaRegTrashAlt, FaRegStar, FaImages } from "react-icons/fa";
 
 // Images
 import "./back1.png"
@@ -54,12 +54,6 @@ export default function Home() {
     }
     onLoad();
   }, [isAuthenticated]);
-  
-  function expand_note(){
-    var s_height = document.querySelector('.new_note_onpage').scrollHeight;
-    document.querySelector('.new_note_onpage').setAttribute('style','height:'+s_height+'px');    
-    console.log(s_height)
-  }
   function loadNotes() {
     return API.get("notes", "/notes");
   }
@@ -95,6 +89,11 @@ export default function Home() {
     } catch (e) {
       onError(e);
     }
+  }
+  function expand_note(){
+    var s_height = document.querySelector('.new_note_open_text').scrollHeight;
+    document.querySelector('.new_note_open_text').setAttribute('style','height:'+s_height+'px');    
+    console.log(s_height)
   }
 
   function NewNote() {
@@ -202,6 +201,9 @@ export default function Home() {
             <div action className="new_note new_note_open">
               <input type="text" name="Titel" className="new_note_open_titel"  placeholder="Titel"/>
               <textarea className="new_note_open_text" placeholder="Take a note . . ." onInput={expand_note} value={content} onChange={(e) => setContent(e.target.value)}></textarea>
+              <div className="new_note_open_icons">
+                <FaImages />
+              </div>
             </div>
           ):(
             <div action className="new_note">

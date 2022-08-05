@@ -13,6 +13,9 @@ export function FrontendStack({ stack, app }) {
     cognitoDomain: {
       domainPrefix: "notetakingapp-not",
     },
+    // cognitoDomain: {
+    //   domainPrefix: `${this.node.addr}`
+    // },
   });
 
 
