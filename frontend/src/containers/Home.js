@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import ListGroup from "react-bootstrap/ListGroup";
 import Form from "react-bootstrap/Form";
-import LoaderButton from "../components/LoaderButton";
 import config from "../config";
 
 import { useAppContext } from "../lib/contextLib";
@@ -15,7 +14,7 @@ import "./NewNote.css";
 import "./Home.css";
 
 // Icons
-import { FaRegTrashAlt, FaRegStar, FaImages } from "react-icons/fa";
+import { FaRegTrashAlt, FaRegStar, FaImages, FaStar } from "react-icons/fa";
 
 // Images
 import "./back1.png"
@@ -26,20 +25,12 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
   const [iscreatenote, setiscreatenote] = useState(false);
   const { islist, isAuthenticated } = useAppContext();
-
   const [content, setContent] = useState("");
+  const [title, setTitle] = useState("");
+  const file = useRef(null);
+  const [isarchive, setisarchive] = useState(false);
 
   useEffect(() => {
-    window.addEventListener('click', function(e){   
-      if (document.querySelector('.new_note').contains(e.target)){
-        // Clicked in box
-        setiscreatenote(true);
-      } else{
-        // Clicked outside the box
-        setiscreatenote(false);
-      }
-    });
-
     async function onLoad() {
       if (!isAuthenticated) {
         return;
@@ -54,12 +45,62 @@ export default function Home() {
     }
     onLoad();
   }, [isAuthenticated]);
+
+  useEffect(()=>{
+    window.addEventListener('click', function(e){   
+      if (document.querySelector(".new_note").contains(e.target)){
+        // Clicked in box
+        setiscreatenote(true);
+      } else{
+        // Clicked outside the box
+        setiscreatenote(false);
+      }
+    });
+  })
+
+  function validateClose(){
+    setiscreatenote(false);
+  }
+  function handleFileChange(event) {
+    file.current = event.target.files[0];
+  }
+  async function handleSubmit() {
+    if (file.current && file.current.size > config.MAX_ATTACHMENT_SIZE) {
+      alert(
+        `Please pick a file smaller than ${
+          config.MAX_ATTACHMENT_SIZE / 1000000
+        } MB.`
+      );
+      return;
+    }
+    // setIsLoading(true);
+    if(content.length > 0){
+      console.log(content.length > 0);
+      try {
+        const attachment = file.current ? await s3Upload(file.current) : null;
+        await createNote({ content, attachment, isarchive, title });
+        setiscreatenote(false);
+        onLoad();
+      } catch (e) {
+        onError(e);
+        // setIsLoading(false);
+      }
+    }
+    else{
+      setiscreatenote(true);
+      alert("Please Fill the Feilds");
+    }
+  }
+  
+  function createNote(note) {
+    return API.post("notes", "/notes", {
+      body: note,
+    });
+  }
+
   function loadNotes() {
     return API.get("notes", "/notes");
   }
-  function createNotepage(){
-    iscreatenote?setiscreatenote(false): setiscreatenote(true);
-  }  
   async function onLoad() {
     if (!isAuthenticated) {
       return;
@@ -96,115 +137,31 @@ export default function Home() {
     console.log(s_height)
   }
 
-  function NewNote() {
-    const file = useRef(null);
-    const [isarchive, setisarchive] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
-    // const nav = useNavigate();
-  
-    function validateForm() {
-      return content.length > 0;
-    }
-    function validateClose(){
-      setiscreatenote(false);
-    }
-
-    function handleFileChange(event) {
-      file.current = event.target.files[0];
-    }
-  
-    async function handleSubmit(event) {
-      event.preventDefault();
-      if (file.current && file.current.size > config.MAX_ATTACHMENT_SIZE) {
-        alert(
-          `Please pick a file smaller than ${
-            config.MAX_ATTACHMENT_SIZE / 1000000
-          } MB.`
-        );
-        return;
-      }
-    
-      setIsLoading(true);
-    
-      try {
-        const attachment = file.current ? await s3Upload(file.current) : null;
-    
-        await createNote({ content, attachment, isarchive });
-        setiscreatenote(false);
-        onLoad();
-      } catch (e) {
-        onError(e);
-        setIsLoading(false);
-      }
-    }
-    
-    function createNote(note) {
-      return API.post("notes", "/notes", {
-        body: note,
-      });
-    }
-
-    function expand_note(){
-      var s_height = document.querySelector('.new_note_onpage').scrollHeight;
-      document.querySelector('.new_note_onpage').setAttribute('style','height:'+s_height+'px');    
-      console.log(s_height)
-    }
-
-    return (
-      <div>
-        <Form onSubmit={handleSubmit}  className="NewNoteonpage">
-              <textarea className="new_note_onpage" placeholder="Take a note . . ." onInput={expand_note} value={content} onChange={(e) => setContent(e.target.value)}>
-                <input type="file" name="file_size" className="new_note_onpage" />
-              </textarea>
-            <Form.Group controlId="file">
-              <Form.Label>Attachment</Form.Label>
-              <Form.Control onChange={handleFileChange} type="file" />
-            </Form.Group>
-            <Form.Check 
-              type="switch"
-              id="custom-switch"
-              label="Check this switch"
-              onChange={()=>{setisarchive(true)}}
-            />
-            <div className="newnote_pagebtns">
-              <LoaderButton
-                block
-                type="submit"
-                size="lg"
-                variant="primary"
-                isLoading={isLoading}
-                disabled={!validateForm()}
-              >
-                Create
-              </LoaderButton>
-
-              <LoaderButton
-                block
-                size="lg"
-                variant="danger"
-                onClick={validateClose}
-              >
-                Close
-              </LoaderButton>
-          </div>
-        </Form>
-      </div>
-    );
-  }
-  // onClick={createNotepage}
   function renderNotesList(notes) {
     return (
       <>
       <div className="notepage">
         <LinkContainer to="" >
           {iscreatenote? (
-            <div action className="new_note new_note_open">
-              <input type="text" name="Titel" className="new_note_open_titel"  placeholder="Titel"/>
-              <textarea className="new_note_open_text" placeholder="Take a note . . ." onInput={expand_note} value={content} onChange={(e) => setContent(e.target.value)}></textarea>
-              <div className="new_note_open_icons">
-                <FaImages />
+              <div className="new_note new_note_open">
+                <input type="text" name="Titel" className="new_note_open_titel"  placeholder="Titel" onChange={(e) => setTitle(e.target.value)}/>
+                <textarea className="new_note_open_text" placeholder="Take a note . . ." onInput={expand_note} value={content} onChange={(e) => setContent(e.target.value)}></textarea>
+                <div className="new_note_open_icons">
+                  <div className="new_note_open_icons_left">
+                    <div className="file_input">
+                      <label htmlFor="file_input_f"><FaImages /></label>
+                      <input type="file" name="" id="file_input_f" onChange={handleFileChange} />
+                    </div>
+                    <div className="file_check">
+                      <div onClick={()=>{setisarchive(!isarchive)}}>{isarchive?<FaStar />:<FaRegStar />}</div>
+                    </div>
+                  </div>
+                  <div className="btn_grp">
+                    <div className="closebtn" onClick={handleSubmit}>Create</div>
+                    <div className="closebtn" onClick={validateClose}>Close</div>
+                  </div>
+                </div>
               </div>
-            </div>
           ):(
             <div action className="new_note">
               <span className="ml-2 font-weight-normal new_note_titel">Take a note . . .</span>
@@ -213,10 +170,13 @@ export default function Home() {
           } 
         </LinkContainer>
         <div className={islist?"notesbox_list":"notesbox"}>
-            {notes.map(({ noteId, content, createdAt }) => (
+            {notes.map(({ noteId, content, createdAt, title }) => (
               <LinkContainer key={noteId} to={`/notes/${noteId}`}>
                 <div action className={islist?"notesdisplay_list":"notesdisplay"}>
-                  <span className="font-weight-normal">
+                  <div className="font-weight-normal">
+                    {title}
+                  </div>
+                  <span className="font-weight-bold">
                     {content.trim().split("\n")[0]}
                   </span>
                   <br />

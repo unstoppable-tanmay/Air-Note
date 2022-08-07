@@ -194,9 +194,26 @@
 .new_note_open_icons{
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 2rem;
-  font-size: 1.7rem;
+  justify-content: space-between;
+  font-size: 1.4rem;
   color: gray;
-  margin-left: .3rem;
+  padding: 0rem 2rem 0rem .3rem;
+  animation: fadein .4s forwards 1;
+  width: 100%;
+}
+.new_note_open_icons_left{
+  font-size: 1.7rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+}
+.file_input > input,.file_check > input{
+  display: none;
+}
+.btn_grp{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
 }
