@@ -197,7 +197,7 @@
   justify-content: space-between;
   font-size: 1.4rem;
   color: gray;
-  padding: 0rem 2rem 0rem .3rem;
+  padding: 0rem 1rem 0rem .3rem;
   animation: fadein .4s forwards 1;
   width: 100%;
 }
