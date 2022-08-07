@@ -11,7 +11,7 @@ export function FrontendStack({ stack, app }) {
   
   const domain = auth.cdk.userPool.addDomain("AuthDomain", {
     cognitoDomain: {
-      domainPrefix: "notetakingapp-not",
+      domainPrefix: "air-note",
     },
     // cognitoDomain: {
     //   domainPrefix: `${this.node.addr}`
