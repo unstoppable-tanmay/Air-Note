@@ -46,17 +46,17 @@ export default function Home() {
     onLoad();
   }, [isAuthenticated]);
 
-  useEffect(()=>{
-    window.addEventListener('click', function(e){   
-      if (document.querySelector(".new_note").contains(e.target)){
-        // Clicked in box
-        setiscreatenote(true);
-      } else{
-        // Clicked outside the box
-        setiscreatenote(false);
-      }
-    });
-  })
+  // useEffect(()=>{
+  //   window.addEventListener('click', function(e){   
+  //     if (document.querySelector(".new_note").contains(e.target)){
+  //       // Clicked in box
+  //       setiscreatenote(true);
+  //     } else{
+  //       // Clicked outside the box
+  //       setiscreatenote(false);
+  //     }
+  //   });
+  // })
 
   function validateClose(){
     setiscreatenote(false);

@@ -8,16 +8,16 @@ const config = {
     },
     apiGateway: {
       REGION: "us-east-1",
-      URL:  "https://t48ylb3j8f.execute-api.us-east-1.amazonaws.com",
+      URL: "https://t48ylb3j8f.execute-api.us-east-1.amazonaws.com",
     },
     cognito: {
       REGION: "us-east-1",
-      USER_POOL_ID: "us-east-1_3L8ZTHyy",
+      USER_POOL_ID: "us-east-1_3L8ZTHyyd",
       APP_CLIENT_ID: "4gafru7hej1749nn278c0ukabb",
       IDENTITY_POOL_ID: "us-east-1:9509fd27-c072-402e-8b69-4c7e23491cf7",
     },
     social: {
-      FB: "598159221932510"
+      FB: "YOUR_FACEBOOK_APP_ID"
     }
   };
   
