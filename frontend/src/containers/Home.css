@@ -40,7 +40,7 @@
   justify-content: center;
 }
 .new_note{
-  width: 50rem;
+  width: clamp(30rem, 50rem , 50rem);
   height: 4rem;
   border-radius: 1rem;
   padding: 0 1rem 0 1rem;

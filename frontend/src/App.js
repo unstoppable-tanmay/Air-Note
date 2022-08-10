@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Routes from "./Routes";
 import "./App.css";  
+import "./responsive.css"
 
 import ErrorBoundary from "./components/ErrorBoundary";
 import { LinkContainer } from "react-router-bootstrap";
