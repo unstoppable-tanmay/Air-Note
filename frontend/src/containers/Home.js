@@ -198,7 +198,7 @@ export default function Home() {
                   <span className="text-muted date_notes">Created: {new Date(createdAt).toLocaleString()}</span>
                   <span className="delete_btn_onnote">
                     {isopennote?<FaTimes onClick={(event)=>{closenote(event,noteId)}} className="delete_btn_on_open_note"/>:<></>}
-                    {!isopennote?<LinkContainer to={`/notes/${noteId}`}><FaPencilAlt/></LinkContainer>:<></>}
+                    <LinkContainer to={`/notes/${noteId}`}><FaPencilAlt/></LinkContainer>
                     <FaRegStar onClick={event => {event.stopPropagation();handleDelete(event, noteId)}} className="note_in_btns"/>
                     <FaRegTrashAlt  onClick={event => {event.stopPropagation();handleDelete(event, noteId)}} className="note_in_btns"/>
                   </span>
