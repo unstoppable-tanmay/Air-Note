@@ -3,5 +3,19 @@
     font-size: 1.5rem;
   }
 .Notes{
-  width: 70vw;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 10rem;
+}
+.file{
+  margin-left: 0;
+}
+.update_note{
+  height: 15rem;
+}
+.update_textarea{
+  font-size: .7rem;
 }

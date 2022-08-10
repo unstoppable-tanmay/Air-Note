@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
 import ListGroup from "react-bootstrap/ListGroup";
-import Form from "react-bootstrap/Form";
 import config from "../config";
 
 import { useAppContext } from "../lib/contextLib";
@@ -14,7 +13,7 @@ import "./NewNote.css";
 import "./Home.css";
 
 // Icons
-import { FaRegTrashAlt, FaRegStar, FaImages, FaStar } from "react-icons/fa";
+import { FaRegTrashAlt, FaRegStar, FaImages, FaStar, FaTimes, FaPencilAlt } from "react-icons/fa";
 
 // Images
 import "./back1.png"
@@ -29,6 +28,7 @@ export default function Home() {
   const [title, setTitle] = useState("");
   const file = useRef(null);
   const [isarchive, setisarchive] = useState(false);
+  const [isopennote , setisopennote] = useState(false);
 
   useEffect(() => {
     async function onLoad() {
@@ -46,17 +46,24 @@ export default function Home() {
     onLoad();
   }, [isAuthenticated]);
 
-  // useEffect(()=>{
-  //   window.addEventListener('click', function(e){   
-  //     if (document.querySelector(".new_note").contains(e.target)){
-  //       // Clicked in box
-  //       setiscreatenote(true);
-  //     } else{
-  //       // Clicked outside the box
-  //       setiscreatenote(false);
-  //     }
-  //   });
-  // })
+  useEffect(()=>{
+    window.addEventListener('click', function(e){   
+      if (document.querySelector(".new_note").contains(e.target)){
+        // Clicked in box
+        setiscreatenote(true);
+      } else{
+        // Clicked outside the box
+        setiscreatenote(false);
+      }
+    });
+
+    
+    window.addEventListener('click', function(e){   
+      if (!document.querySelector(".notes_boxes").contains(e.target)){
+        document.querySelector(".notes_boxes").classList.remove("open_the_note")
+      }
+    });
+  })
 
   function validateClose(){
     setiscreatenote(false);
@@ -80,10 +87,11 @@ export default function Home() {
         const attachment = file.current ? await s3Upload(file.current) : null;
         await createNote({ content, attachment, isarchive, title });
         setiscreatenote(false);
+        setContent("");
+        setTitle("");
         onLoad();
       } catch (e) {
         onError(e);
-        // setIsLoading(false);
       }
     }
     else{
@@ -136,15 +144,26 @@ export default function Home() {
     document.querySelector('.new_note_open_text').setAttribute('style','height:'+s_height+'px');    
     console.log(s_height)
   }
-
+  function opennote(event,id){
+    event.stopPropagation();
+    document.getElementsByClassName(id)[0].classList.add("open_the_note");
+    setisopennote(true)
+  }
+  function closenote(event,id){
+    event.stopPropagation();
+    document.getElementsByClassName(id)[0].classList.remove("open_the_note");
+    console.log(document.getElementsByClassName(id)[0].classList.contains('open_the_note'));
+    setisopennote(false)
+  }
   function renderNotesList(notes) {
     return (
       <>
       <div className="notepage">
+      {isopennote?<div className="back_div_for_open_note"></div>:<></>}
         <LinkContainer to="" >
           {iscreatenote? (
               <div className="new_note new_note_open">
-                <input type="text" name="Titel" className="new_note_open_titel"  placeholder="Titel" onChange={(e) => setTitle(e.target.value)}/>
+                <input type="text" name="Titel" className="new_note_open_titel" value={title}  placeholder="Titel" onChange={(e) => setTitle(e.target.value)}/>
                 <textarea className="new_note_open_text" placeholder="Take a note . . ." onInput={expand_note} value={content} onChange={(e) => setContent(e.target.value)}></textarea>
                 <div className="new_note_open_icons">
                   <div className="new_note_open_icons_left">
@@ -171,21 +190,17 @@ export default function Home() {
         </LinkContainer>
         <div className={islist?"notesbox_list":"notesbox"}>
             {notes.map(({ noteId, content, createdAt, title }) => (
-              <LinkContainer key={noteId} to={`/notes/${noteId}`}>
+              <LinkContainer key={noteId} to="" onClick={(event)=>{opennote(event,noteId)}} className={noteId + " notes_boxes"} >
                 <div action className={islist?"notesdisplay_list":"notesdisplay"}>
-                  <div className="font-weight-normal">
-                    {title}
-                  </div>
-                  <span className="font-weight-bold">
-                    {content.trim().split("\n")[0]}
-                  </span>
+                  <div className="font-weight-normal title_note">{title}</div>
+                  <span className="font-weight-bold">{content.trim().split("\n")[0]}</span>
                   <br />
-                  <span className="text-muted date_notes">
-                    Created: {new Date(createdAt).toLocaleString()}
-                  </span>
+                  <span className="text-muted date_notes">Created: {new Date(createdAt).toLocaleString()}</span>
                   <span className="delete_btn_onnote">
-                    <FaRegStar onClick={event => handleDelete(event, noteId)} className="note_in_btns"/>
-                    <FaRegTrashAlt  onClick={event => handleDelete(event, noteId)} className="note_in_btns"/>
+                    {isopennote?<FaTimes onClick={(event)=>{closenote(event,noteId)}} className="delete_btn_on_open_note"/>:<></>}
+                    {!isopennote?<LinkContainer to={`/notes/${noteId}`}><FaPencilAlt/></LinkContainer>:<></>}
+                    <FaRegStar onClick={event => {event.stopPropagation();handleDelete(event, noteId)}} className="note_in_btns"/>
+                    <FaRegTrashAlt  onClick={event => {event.stopPropagation();handleDelete(event, noteId)}} className="note_in_btns"/>
                   </span>
                 </div>
               </LinkContainer>
@@ -195,7 +210,7 @@ export default function Home() {
       </>
     );
   }
-
+// {`/notes/${noteId}`}      onClick={()=>opennote(noteId)} className={noteId + " notes_boxes"}
   function renderLander() {
     return (
       <div className="lander">

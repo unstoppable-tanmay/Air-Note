@@ -11,7 +11,7 @@ import { onError } from "./lib/errorLib";
 import LoaderButton from "./components/LoaderButton";
 
 // Icons
-import { FaStickyNote, FaGripHorizontal, FaWhmcs, FaSignOutAlt, FaUserAlt, FaSignInAlt, FaHome } from "react-icons/fa";
+import { FaStickyNote, FaGripHorizontal, FaWhmcs, FaSignOutAlt, FaUserAlt, FaSignInAlt, FaHome, FaCog } from "react-icons/fa";
 
 
 function App() {
@@ -90,7 +90,7 @@ function App() {
                   <div className="refresh" onClick={loadnotes}><FaHome /></div>
                   <div className="viewchange" onClick={handlelists}><FaGripHorizontal /></div>
                   {/* <LinkContainer to="/settings"> */}
-                    <div className="settings" onClick={() =>{setIssetting(!issetting)}}><FaWhmcs /></div>
+                    <div className="settings" onClick={() =>{setIssetting(!issetting)}}><FaCog /></div>
                   {/* </LinkContainer> */}
                     <div className="account" onClick={handleLogout}><FaSignOutAlt /></div>
                 </>
@@ -108,11 +108,11 @@ function App() {
         </div>
       </div>
        
-      <ErrorBoundary>
+      {/* <ErrorBoundary> */}
         <AppContext.Provider value={{ isAuthenticated, userHasAuthenticated, islist }}>
           <Routes />
         </AppContext.Provider>
-      </ErrorBoundary>
+      {/* </ErrorBoundary> */}
       </div>
     )
   );

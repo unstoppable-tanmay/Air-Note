@@ -71,6 +71,7 @@
   flex-direction: column;
 }
 .notesdisplay_list{
+  transition: .4s;
   width: 50rem;
   min-height: 10rem;
   border-radius: 1rem;
@@ -81,6 +82,7 @@
   position: relative;
 }
 .notesdisplay{
+  transition: .4s;
   width: 20rem;
   min-height: 10rem;
   border-radius: 1rem;
@@ -144,9 +146,9 @@
   align-items: center;
   justify-content: flex-end;
   flex-direction: column;
-  gap: 20%;
-  width: 2rem;
+  gap: 1.3rem;
   height: 100%;
+  width: 2rem;
   padding: 1rem 0rem 1.33rem 0rem;
   z-index: 9;
 }
@@ -216,4 +218,27 @@
   align-items: center;
   justify-content: center;
   gap: 1.5rem;
+}
+.title_note{
+  font-size: 1.4rem;
+}
+
+.open_the_note{
+  position: absolute;
+  z-index: 999;
+  background: #fff;
+  width: 50rem;
+  height: 15rem;
+  z-index: 999;
+}
+.back_div_for_open_note{
+  position: absolute;
+  width: 100vw; height: 100%;
+  top: 0;
+  background: #00000033;
+  z-index: 888;
+}
+.delete_btn_on_open_note{
+  position: absolute;
+  top: 1rem;
 }

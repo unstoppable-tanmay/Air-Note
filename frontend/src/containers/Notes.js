@@ -14,6 +14,7 @@ export default function Notes() {
   const nav = useNavigate();
   const [note, setNote] = useState(null);
   const [content, setContent] = useState("");
+  const [title, setTitle] = useState("");
 
   const [isLoading, setIsLoading] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -26,13 +27,14 @@ export default function Notes() {
     async function onLoad() {
       try {
         const note = await loadNote();
-        const { content, attachment } = note;
+        const { content, attachment, title } = note;
 
         if (attachment) {
           note.attachmentURL = await Storage.vault.get(attachment);
         }
 
         setContent(content);
+        setTitle(title);
         setNote(note);
       } catch (e) {
         onError(e);
@@ -45,21 +47,17 @@ export default function Notes() {
   function validateForm() {
     return content.length > 0;
   }
-  
   function formatFilename(str) {
     return str.replace(/^\w+-/, "");
   }
-  
   function handleFileChange(event) {
     file.current = event.target.files[0];
   }
-  
   function saveNote(note) {
     return API.put("notes", `/notes/${id}`, {
       body: note,
     });
   }
-  
   async function handleSubmit(event) {
     let attachment;
   
@@ -122,46 +120,37 @@ export default function Notes() {
     <div className="Notes">
       {note && (
         <Form onSubmit={handleSubmit}>
-          <Form.Group controlId="content">
-            <Form.Control
-              as="textarea"
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
-            />
-          </Form.Group>
-          <Form.Group controlId="file">
-            <Form.Label>Attachment</Form.Label>
-            {note.attachment && (
-              <p>
-                <a
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  href={note.attachmentURL}
-                >
-                  {formatFilename(note.attachment)}
-                </a>
-              </p>
-            )}
-            <Form.Control onChange={handleFileChange} type="file" />
-          </Form.Group>
-          <LoaderButton
-            block="true"
-            size="lg"
-            type="submit"
-            isLoading={isLoading}
-            disabled={!validateForm()}
-          >
-            Save
-          </LoaderButton>
-          <LoaderButton
-            block="true"
-            size="lg"
-            variant="danger"
-            onClick={handleDelete}
-            isLoading={isDeleting}
-          >
-            Delete
-          </LoaderButton>
+
+
+        <div className="new_note new_note_open update_note">
+          <input type="text" name="Titel" className="new_note_open_titel" value={title}  placeholder="Titel" onChange={(e) => setTitle(e.target.value)}/>
+          <textarea className="new_note_open_text update_textarea" placeholder="Take a note . . ." value={content} onChange={(e) => setContent(e.target.value)}></textarea>
+
+          <div className="new_note_open_icons">
+            <div className="new_note_open_icons_left">
+              <div className="file">
+                <Form.Group controlId="file">
+                  {note.attachment && (
+                    <p>
+                      <a
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        href={note.attachmentURL}
+                      >
+                        {formatFilename(note.attachment)}
+                      </a>
+                    </p>
+                  )}
+                  <Form.Control onChange={handleFileChange} type="file" />
+                </Form.Group>
+              </div>
+            </div>
+            <div className="btn_grp">
+              <div className="closebtn" onClick={handleSubmit} disabled={!validateForm()}>Update</div>
+              <div className="closebtn" onClick={handleDelete}>Delete</div>
+            </div>
+          </div>
+        </div>
         </Form>
       )}
     </div>
