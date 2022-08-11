@@ -22,7 +22,6 @@
     "services"
   ],
   "dependencies": {
-    "cors": "^2.8.5",
-    "esbuild-windows-64": "^0.15.1"
+    "cors": "^2.8.5"
   }
 }
