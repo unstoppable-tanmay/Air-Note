@@ -12,7 +12,7 @@ import { onError } from "./lib/errorLib";
 import LoaderButton from "./components/LoaderButton";
 
 // Icons
-import { FaStickyNote, FaGripHorizontal, FaWhmcs, FaSignOutAlt, FaUserAlt, FaSignInAlt, FaHome, FaCog } from "react-icons/fa";
+import { FaStickyNote, FaGripHorizontal, FaSignOutAlt, FaUserAlt, FaSignInAlt, FaHome, FaCog } from "react-icons/fa";
 
 
 function App() {
@@ -109,11 +109,11 @@ function App() {
         </div>
       </div>
        
-      {/* <ErrorBoundary> */}
+      <ErrorBoundary>
         <AppContext.Provider value={{ isAuthenticated, userHasAuthenticated, islist }}>
           <Routes />
         </AppContext.Provider>
-      {/* </ErrorBoundary> */}
+      </ErrorBoundary>
       </div>
     )
   );
