@@ -26,8 +26,8 @@ export function AuthStack({ stack, app }) {
           cognito.UserPoolClientIdentityProvider.GOOGLE,
         ],
         oAuth: {
-          callbackUrls: ["https://air-note.netlify.app"],
-          logoutUrls: ["https://air-note.netlify.app"],
+          callbackUrls: ["http://localhost:3000"],
+          logoutUrls: ["http://localhost:3000"],
         },
       },
     },
