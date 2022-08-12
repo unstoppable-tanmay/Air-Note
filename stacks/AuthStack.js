@@ -24,6 +24,7 @@ export function AuthStack({ stack, app }) {
       userPoolClient: {
         supportedIdentityProviders: [
           cognito.UserPoolClientIdentityProvider.GOOGLE,
+          cognito.UserPoolClientIdentityProvider.FACEBOOK,
         ],
         oAuth: {
           callbackUrls: ["http://localhost:3000"],
