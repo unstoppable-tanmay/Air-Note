@@ -1,6 +1,6 @@
 import { Function } from "@serverless-stack/resources";
 
-export function SignUpEmailStack({ stack, app }) {
+export function Sendemail({ stack, app }) {
   new Function(stack, "email", {
     handler: "../services/functions/signupemail.handler",
   });
