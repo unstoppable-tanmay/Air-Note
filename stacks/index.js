@@ -2,6 +2,7 @@ import { StorageStack } from "./StorageStack";
 import { ApiStack } from "./ApiStack";
 import { AuthStack } from "./AuthStack";
 import { FrontendStack } from "./FrontendStack";
+import { Sendemail } from "./Sendemail";
 
 export default function main(app) {
   app.setDefaultFunctionProps({
@@ -11,5 +12,5 @@ export default function main(app) {
       format: "esm",
     },
   });
-  app.stack(StorageStack).stack(ApiStack).stack(AuthStack).stack(FrontendStack);
+  app.stack(StorageStack).stack(ApiStack).stack(AuthStack).stack(FrontendStack).stack(Sendemail);
 }

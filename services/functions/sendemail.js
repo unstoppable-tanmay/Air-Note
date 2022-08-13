@@ -1,9 +1,25 @@
-require('dotenv').config()
+const aws = require("aws-sdk");
 
-const AWS = require('aws-sdk');
-const ses = new AWS.SES();
+const ses = new aws.SES();
 
-const params = {
+export const handler = (event, context, callback) => {
+  console.log(event);
+
+  if (event.request.userAttributes.email) {
+    sendEmail(
+      event.request.userAttributes.email,
+      "Welcome to Not-Taking-App",
+      function (status) {
+        callback(null, event);
+      }
+    );
+  } else {
+    callback(null, event);
+  }
+};
+
+function sendEmail(to, body, completedCallback) {
+const eParams = {
     Destination: {
         ToAddresses: ["tanmaypanda752@gcekbpatana.ac.in"]
     },
@@ -11,23 +27,29 @@ const params = {
         Body: {
             Html: {
                 Charset: 'UTF-8',
-                Data: 'An example of sending email with ses and aws-sdk on Node.js : <a class="ulink" href="https://github.com/mdhelaluddin-ctg-bd/ses-email-nodejs" target="_blank">Check here</a>.'
+                Data: 'in any problem you can mail us -> : <a class="ulink" href="https://github.com/mdhelaluddin-ctg-bd/ses-email-nodejs" target="_blank">Check here</a>.'
             },
             Text: {
                 Charset: 'UTF-8',
-                Data: 'An example of sending email with ses and aws-sdk on Node.js.'
+                Data: 'Making the world paper free to save world'
             }
         },
         Subject: {
             Charset: 'UTF-8',
-            Data: 'Test email from code'
+            Data: 'Welcome to AirNote'
         }
     },
     ReturnPath: "tanmaypanda752@gmail.com",
     Source: "tanmaypanda752@gmail.com"
 }
 
-ses.sendEmail(params, (err, data) => {
-    if (err) console.log(err, err.stack)
-    else console.log(data)
-})
+  const email = ses.sendEmail(eParams, function (err, data) {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log("===EMAIL SENT===");
+    }
+    completedCallback("Email sent");
+  });
+  console.log("EMAIL CODE END");
+}
