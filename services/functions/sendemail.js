@@ -21,7 +21,7 @@ export const handler = (event, context, callback) => {
 function sendEmail(to, body, completedCallback) {
 const eParams = {
     Destination: {
-        ToAddresses: ["tanmaypanda752@gcekbpatana.ac.in"]
+        ToAddresses: ["tanmaypanda752@gmail.com"]
     },
     Message: {
         Body: {
@@ -39,8 +39,8 @@ const eParams = {
             Data: 'Welcome to AirNote'
         }
     },
-    ReturnPath: "tanmaypanda752@gmail.com",
-    Source: "tanmaypanda752@gmail.com"
+    ReturnPath: "tanmaypanda752@gcekbpatna.ac.in",
+    Source: "tanmaypanda752@gcekbpatna.ac.in"
 }
 
   const email = ses.sendEmail(eParams, function (err, data) {
