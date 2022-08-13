@@ -13,11 +13,8 @@ export function FrontendStack({ stack, app }) {
     cognitoDomain: {
       domainPrefix: "air-note",
     },
-    // cognitoDomain: {
-    //   domainPrefix: `${this.node.addr}`
-    // },
   });
-
+  // notetakingapp-not
 
   // Define our React app
   const site = new ReactStaticSite(stack, "ReactSite", {

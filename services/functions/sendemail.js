@@ -1,3 +1,26 @@
+// const params = {
+//     Destination: {
+//         ToAddresses: ["tanmaypanda752@gcekbpatana.ac.in"]
+//     },
+//     Message: {
+//         Body: {
+//             Html: {
+//                 Charset: 'UTF-8',
+//                 Data: 'An example of sending email with ses and aws-sdk on Node.js : <a class="ulink" href="https://github.com/mdhelaluddin-ctg-bd/ses-email-nodejs" target="_blank">Check here</a>.'
+//             },
+//             Text: {
+//                 Charset: 'UTF-8',
+//                 Data: 'An example of sending email with ses and aws-sdk on Node.js.'
+//             }
+//         },
+//         Subject: {
+//             Charset: 'UTF-8',
+//             Data: 'Test email from code'
+//         }
+//     },
+//     ReturnPath: "tanmaypanda752@gmail.com",
+//     Source: "tanmaypanda752@gmail.com"
+// }
 const aws = require("aws-sdk");
 
 const ses = new aws.SES();
@@ -8,7 +31,7 @@ export const handler = (event, context, callback) => {
   if (event.request.userAttributes.email) {
     sendEmail(
       event.request.userAttributes.email,
-      "Welcome to Not-Taking-App",
+      "Welcome to AirNote",
       function (status) {
         callback(null, event);
       }
@@ -19,29 +42,27 @@ export const handler = (event, context, callback) => {
 };
 
 function sendEmail(to, body, completedCallback) {
-const eParams = {
+  const eParams = {
     Destination: {
-        ToAddresses: ["tanmaypanda752@gmail.com"]
+      ToAddresses: [to],
     },
     Message: {
-        Body: {
-            Html: {
-                Charset: 'UTF-8',
-                Data: 'in any problem you can mail us -> : <a class="ulink" href="https://github.com/mdhelaluddin-ctg-bd/ses-email-nodejs" target="_blank">Check here</a>.'
-            },
-            Text: {
-                Charset: 'UTF-8',
-                Data: 'Making the world paper free to save world'
-            }
-        },
-        Subject: {
+      Body: {
+        Html: {
             Charset: 'UTF-8',
-            Data: 'Welcome to AirNote'
-        }
+            Data: '<a class="ulink" href="https://air-note.netlify.app" target="_blank">Check here</a>. Here to connect to us'
+        },
+        Text: {
+          Data: body,
+        },
+      },
+      Subject: {
+        Data: "Thank You . . .\n For Joining us",
+      },
     },
-    ReturnPath: "tanmaypanda752@gcekbpatna.ac.in",
-    Source: "tanmaypanda752@gcekbpatna.ac.in"
-}
+
+    Source: "tanmaypanda752@gmail.com",
+  };
 
   const email = ses.sendEmail(eParams, function (err, data) {
     if (err) {
