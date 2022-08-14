@@ -74,7 +74,7 @@ auth.cdk.userPoolClient.node.addDependency(providerfb);
   auth.attachPermissionsForAuthUsers(stack, [
     api,
     new iam.PolicyStatement({
-      actions: ["s3:*"],
+      actions: ["s3:*","ses:SendEmail"],
       effect: iam.Effect.ALLOW,
       resources: [
         bucket.bucketArn + "/private/${cognito-identity.amazonaws.com:sub}/*",

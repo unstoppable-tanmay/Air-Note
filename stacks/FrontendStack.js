@@ -9,18 +9,18 @@ export function FrontendStack({ stack, app }) {
   const { bucket } = use(StorageStack);
 
   
-  const domain = auth.cdk.userPool.addDomain("AuthDomain", {
-    cognitoDomain: {
-      domainPrefix: "air-note",
-    },
-  });
+  // const domain = auth.cdk.userPool.addDomain("AuthDomain", {
+  //   cognitoDomain: {
+  //     domainPrefix: "air-note",
+  //   },
+  // });
   // notetakingapp-not
 
   // Define our React app
   const site = new ReactStaticSite(stack, "ReactSite", {
     path: "frontend",
     environment: {
-      REACT_APP_COGNITO_DOMAIN: domain.domainName,
+      // REACT_APP_COGNITO_DOMAIN: domain.domainName,
       REACT_APP_API_URL: api.customDomainUrl || api.url,
       REACT_APP_REGION: app.region,
       REACT_APP_BUCKET: bucket.bucketName,
@@ -32,7 +32,7 @@ export function FrontendStack({ stack, app }) {
   
   stack.addOutputs({
     SiteUrl: site.url,
-    auth_domain: `https://${domain.domainName}.auth.${app.region}.amazoncognito.com`
+    // auth_domain: `https://${domain.domainName}.auth.${app.region}.amazoncognito.com`
   });
 }
 

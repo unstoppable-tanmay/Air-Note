@@ -20,7 +20,7 @@ Amplify.configure({
     userPoolWebClientId: config.cognito.APP_CLIENT_ID,
     oauth: {
       domain: `${
-        "notetakingapp-not" +
+        "air-note" +
         ".auth." +
         config.cognito.REGION +
         ".amazoncognito.com"
